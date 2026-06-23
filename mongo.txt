@@ -1,0 +1,48 @@
+mongosh
+
+show dbs
+
+use College
+
+db.student.insertOne({
+    name: "Monisha",
+    age: 18,
+    cgpa: 6.38,
+    Dept: "CSE"
+})
+
+db.student.find()
+db.student.findOne({ name: "Monisha" })
+
+db.student.updateOne(
+    { name: "Monisha" },
+    { $set: { Dept: "ISE" } }
+)
+
+db.student.updateMany(
+    { Dept: "CSE" },
+    { $set: { cgpa: 8.5 } }
+)
+
+db.student.deleteOne({ name: "Monisha" })
+db.student.deleteMany({ Dept: "CSE" })
+
+use College
+
+db.student.insertOne({
+    name: "Monisha",
+    age: 18,
+    Dept: "CSE"
+})
+
+db.student.find()
+
+db.student.updateOne(
+    { name: "Monisha" },
+    { $set: { Dept: "ISE" } }
+)
+
+db.student.deleteOne({ name: "Monisha" })
+
+db.student.drop()
+db.dropDatabase()

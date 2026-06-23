@@ -1,0 +1,67 @@
+
+<style>
+#chat-box { height: 320px; overflow-y: auto; border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 12px; background: var(--color-background-secondary); display: flex; flex-direction: column; gap: 8px; }
+.msg { max-width: 75%; padding: 8px 12px; border-radius: 12px; font-size: 14px; line-height: 1.5; }
+.user { align-self: flex-end; background: var(--color-background-info); color: var(--color-text-info); }
+.bot { align-self: flex-start; background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); color: var(--color-text-primary); }
+#input-row { display: flex; gap: 8px; margin-top: 10px; }
+#input-row input { flex: 1; }
+</style>
+
+<h2 class="sr-only">Simple chatbot with keyword-based replies</h2>
+<div id="chat-box">
+  <div class="msg bot">Hey! Ask me anything 👋</div>
+</div>
+<div id="input-row">
+  <input type="text" id="user-input" placeholder="Type a message..." />
+  <button onclick="sendMsg()">Send</button>
+</div>
+
+<script>
+const replies = {
+  "hello": "Hey there! How's it going?",
+  "hi": "Hi! What's up?",
+  "how are you": "I'm just a bot but I'm doing great!",
+  "name": "I'm ChatBot 3000, nice to meet you.",
+  "bye": "See ya! Come back anytime.",
+  "help": "You can ask me stuff like hello, how are you, your name, the time, a joke etc.",
+  "joke": "Why do programmers prefer dark mode? Because light attracts bugs! 🐛",
+  "time": "I can't check the clock but your device can!",
+  "age": "I was born the day this HTML was written, so pretty young.",
+  "mongodb": "MongoDB stores data as JSON-like documents. Very flexible!",
+  "react": "React is a JS library for building UIs using components and hooks.",
+  "javascript": "JavaScript is the language of the web. You've completed 90/90 lessons!",
+  "typescript": "TypeScript adds static typing on top of JavaScript. Fewer bugs at runtime!",
+  "express": "Express is a Node.js framework for building APIs and servers.",
+};
+
+function getReply(input) {
+  input = input.toLowerCase().trim();
+  for (let key in replies) {
+    if (input.includes(key)) return replies[key];
+  }
+  return "Hmm, I don't know that one. Try asking something else!";
+}
+
+function addMsg(text, who) {
+  const box = document.getElementById("chat-box");
+  const div = document.createElement("div");
+  div.className = "msg " + who;
+  div.textContent = text;
+  box.appendChild(div);
+  box.scrollTop = box.scrollHeight;
+}
+
+function sendMsg() {
+  const input = document.getElementById("user-input");
+  const text = input.value.trim();
+  if (!text) return;
+  addMsg(text, "user");
+  input.value = "";
+  setTimeout(() => addMsg(getReply(text), "bot"), 300);
+}
+
+document.getElementById("user-input").addEventListener("keydown", e => {
+  if (e.key === "Enter") sendMsg();
+});
+</script>
